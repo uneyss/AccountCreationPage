@@ -1,32 +1,50 @@
-let form1 = document.getElementById('form1');
-let form2 = document.getElementById('form2');
-let form3 = document.getElementById('form3');
-let next1 = document.getElementById('next1');
-let next2 = document.getElementById('next2');
-let back1 = document.getElementById('back1');
-let back2 = document.getElementById('back2');
-let progress = document.getElementById('progress');
+const forms = [
+  document.getElementById('form1'),
+  document.getElementById('form2'),
+  document.getElementById('form3'),
+];
+const nextButtons = [
+  document.getElementById('next1'),
+  document.getElementById('next2'),
+];
+const backButtons = [
+  document.getElementById('back1'),
+  document.getElementById('back2'),
+];
+const progress = document.getElementById('progress');
+let currentFormIndex = 0;
 
-next1.onclick = function () {
-  form1.style.left = '-450px';
-  form2.style.left = '40px';
-  progress.style.width = '240px';
-};
+function updateProgressWidth() {
+  const progressWidth = (currentFormIndex + 1) * 120;
+  progress.style.width = `${progressWidth}px`;
+}
 
-back1.onclick = function () {
-  form1.style.left = '40px';
-  form2.style.left = '450px';
-  progress.style.width = '120px';
-};
+function goToNextStep() {
+  forms[currentFormIndex].style.left = '-450px';
+  currentFormIndex++;
+  forms[currentFormIndex].style.left = '40px';
+  updateProgressWidth();
+}
 
-next2.onclick = function () {
-  form2.style.left = '-450px';
-  form3.style.left = '40px';
-  progress.style.width = '360px';
-};
+function goToPreviousStep() {
+  forms[currentFormIndex].style.left = '450px';
+  currentFormIndex--;
+  forms[currentFormIndex].style.left = '40px';
+  updateProgressWidth();
+}
 
-back2.onclick = function () {
-  form2.style.left = '40px';
-  form3.style.left = '450px';
-  progress.style.width = '240px';
-};
+nextButtons.forEach((button, index) => {
+  button.addEventListener('click', () => {
+    if (currentFormIndex < forms.length - 1) {
+      goToNextStep();
+    }
+  });
+});
+
+backButtons.forEach((button, index) => {
+  button.addEventListener('click', () => {
+    if (currentFormIndex > 0) {
+      goToPreviousStep();
+    }
+  });
+});
