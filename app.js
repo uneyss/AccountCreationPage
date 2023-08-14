@@ -49,17 +49,31 @@ function goToNextStepIfValidEmail() {
   const email = emailInput.value;
 
   if (!email) {
-    showErrorMessage('Email field is required.');
+    emailInput.placeholder = 'Email FİELD İS REQUİRED!';
+    emailInput.style.borderBottomColor = 'red';
   } else if (!isValidEmail(email)) {
-    showErrorMessage('Invalid email format.');
+    emailInput.style.borderBottomColor = 'red';
   } else {
     goToNextStep();
   }
 }
 
+function passwordMatch() {
+  const password1 = document.getElementById('password1').value;
+  const password2 = document.getElementById('password2').value;
+
+  return password1 === password2;
+}
+
 nextButtons.forEach((button) => {
   button.addEventListener('click', () => {
     if (currentFormIndex < forms.length - 1) {
+      if (button.id === 'next1') {
+        if (!passwordMatch()) {
+          console.log('Passwords do not match, cannot proceed.');
+          return;
+        }
+      }
       goToNextStepIfValidEmail();
     }
   });
