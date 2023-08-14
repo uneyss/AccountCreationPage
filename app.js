@@ -11,7 +11,9 @@ const backButtons = [
   document.getElementById('back1'),
   document.getElementById('back2'),
 ];
+
 const progress = document.getElementById('progress');
+
 let currentFormIndex = 0;
 
 function updateProgressWidth() {
@@ -33,15 +35,37 @@ function goToPreviousStep() {
   updateProgressWidth();
 }
 
-nextButtons.forEach((button, index) => {
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email.trim());
+}
+
+function showErrorMessage(message) {
+  console.log(message);
+}
+
+function goToNextStepIfValidEmail() {
+  const emailInput = document.getElementById('email');
+  const email = emailInput.value;
+
+  if (!email) {
+    showErrorMessage('Email field is required.');
+  } else if (!isValidEmail(email)) {
+    showErrorMessage('Invalid email format.');
+  } else {
+    goToNextStep();
+  }
+}
+
+nextButtons.forEach((button) => {
   button.addEventListener('click', () => {
     if (currentFormIndex < forms.length - 1) {
-      goToNextStep();
+      goToNextStepIfValidEmail();
     }
   });
 });
 
-backButtons.forEach((button, index) => {
+backButtons.forEach((button) => {
   button.addEventListener('click', () => {
     if (currentFormIndex > 0) {
       goToPreviousStep();
