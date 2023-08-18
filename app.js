@@ -40,7 +40,7 @@ function isValidEmail(email) {
   return emailRegex.test(email.trim());
 }
 
-function ValidEmail() {
+function validEmail() {
   const emailInput = document.getElementById('email');
   const email = emailInput.value;
 
@@ -53,7 +53,7 @@ function ValidEmail() {
   }
 }
 
-function passwordMatch() {
+function validPassword() {
   const password1 = document.getElementById('password1');
   const password1Value = password1.value;
 
@@ -72,12 +72,23 @@ function passwordMatch() {
   return;
 }
 
+function validUserName() {
+  const firstName = document.getElementById('Fname').value;
+  const valid_reg = /^[A-Za-z]\w+[A-Za-z0-9]$/;
+  const valid_length = (firstName) =>
+    firstName.length >= 4 && firstName.length <= 25;
+  return valid_reg.test(firstName) && valid_length(firstName);
+}
+
+document.getElementById('submit').addEventListener('click', validUserName);
 nextButtons.forEach((button) => {
   button.addEventListener('click', () => {
     if (currentFormIndex < forms.length - 1) {
       if (button.id === 'next1') {
-        ValidEmail();
-        passwordMatch();
+        validEmail();
+        validPassword();
+      } else {
+        goToNextStep();
       }
     }
   });
