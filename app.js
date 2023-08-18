@@ -40,41 +40,45 @@ function isValidEmail(email) {
   return emailRegex.test(email.trim());
 }
 
-function showErrorMessage(message) {
-  console.log(message);
-}
-
-function goToNextStepIfValidEmail() {
+function ValidEmail() {
   const emailInput = document.getElementById('email');
   const email = emailInput.value;
 
   if (!email) {
-    emailInput.placeholder = 'Email FİELD İS REQUİRED!';
+    emailInput.placeholder = 'Email field is required!';
     emailInput.style.borderBottomColor = 'red';
   } else if (!isValidEmail(email)) {
     emailInput.style.borderBottomColor = 'red';
-  } else {
-    goToNextStep();
+    emailInput.value = 'Email format is wrong -> example@gmail.com';
   }
 }
 
 function passwordMatch() {
-  const password1 = document.getElementById('password1').value;
-  const password2 = document.getElementById('password2').value;
+  const password1 = document.getElementById('password1');
+  const password1Value = password1.value;
 
-  return password1 === password2;
+  const password2 = document.getElementById('password2');
+  const password2Value = password2.value;
+  if (password1Value === '' && password2Value === '') {
+    password1.placeholder = 'Please fill out!';
+    password1.style.borderBottomColor = 'red';
+    password2.placeholder = 'Passwords do not match!';
+    password2.style.borderBottomColor = 'red';
+  } else if (password1Value === password2Value) {
+    console.log('Güzel');
+    goToNextStep();
+  }
+
+  return;
 }
 
 nextButtons.forEach((button) => {
   button.addEventListener('click', () => {
     if (currentFormIndex < forms.length - 1) {
       if (button.id === 'next1') {
-        if (!passwordMatch()) {
-          console.log('Passwords do not match, cannot proceed.');
-          return;
-        }
+        ValidEmail();
+        passwordMatch();
       }
-      goToNextStepIfValidEmail();
     }
   });
 });
